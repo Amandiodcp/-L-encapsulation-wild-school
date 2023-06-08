@@ -41,14 +41,14 @@ public class BeerEncapsulator
         {
             if (CanProduceOneBottle())
             {
-                availableBeerVolume -= 33; // Decrease beer volume by 33 centiliters
-                availableBottles--; // Decrease available bottles by 1
-                availableCapsules--; // Decrease available capsules by 1
+                availableBeerVolume -= 33; 
+                availableBottles--; 
+                availableCapsules--; 
                 producedBottles++;
             }
             else
             {
-                break; // Not enough components to produce more bottles
+                break;
             }
         }
 
