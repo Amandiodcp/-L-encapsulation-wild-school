@@ -1,0 +1,91 @@
+using System;
+
+public class BeerEncapsulator
+{
+    private decimal availableBeerVolume;
+    private int availableBottles;
+    private int availableCapsules;
+
+    public BeerEncapsulator(decimal initialBeerVolume, int initialBottles, int initialCapsules)
+    {
+        availableBeerVolume = initialBeerVolume;
+        availableBottles = initialBottles;
+        availableCapsules = initialCapsules;
+    }
+
+    public decimal GetAvailableBeerVolume()
+    {
+        return availableBeerVolume;
+    }
+
+    public int GetAvailableBottles()
+    {
+        return availableBottles;
+    }
+
+    public int GetAvailableCapsules()
+    {
+        return availableCapsules;
+    }
+
+    public void AddBeer(decimal volume)
+    {
+        availableBeerVolume += volume;
+    }
+
+    public int ProduceEncapsulatedBeerBottles(int numBottles)
+    {
+        int producedBottles = 0;
+
+        for (int i = 0; i < numBottles; i++)
+        {
+            if (CanProduceOneBottle())
+            {
+                availableBeerVolume -= 33; // Decrease beer volume by 33 centiliters
+                availableBottles--; // Decrease available bottles by 1
+                availableCapsules--; // Decrease available capsules by 1
+                producedBottles++;
+            }
+            else
+            {
+                break; // Not enough components to produce more bottles
+            }
+        }
+
+        return producedBottles;
+    }
+
+    private bool CanProduceOneBottle()
+    {
+        return availableBeerVolume >= 33 && availableBottles > 0 && availableCapsules > 0;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.Write("disponible en litres : ");
+        decimal beerVolume = decimal.Parse(Console.ReadLine()) * 100; 
+
+        Console.Write("Entrez le nombre de bouteilles vides disponibles : ");
+        int emptyBottles = int.Parse(Console.ReadLine());
+
+        Console.Write("capsules disponibles : ");
+        int capsules = int.Parse(Console.ReadLine());
+        
+        BeerEncapsulator encapsulator = new BeerEncapsulator(beerVolume, emptyBottles, capsules);
+        
+        decimal initialBeerVolume = encapsulator.GetAvailableBeerVolume();
+        int initialEmptyBottles = encapsulator.GetAvailableBottles();
+        int initialCapsules = encapsulator.GetAvailableCapsules();
+
+        Console.WriteLine($"Quantité initiale de bière : {initialBeerVolume} cl");
+        Console.WriteLine($"Quantité initiale de bouteilles vides : {initialEmptyBottles}");
+        Console.WriteLine($"Quantité initiale de capsules : {initialCapsules}");
+        
+        encapsulator.AddBeer(50);
+
+        int producedBottles = encapsulator.ProduceEncapsulatedBeerBottles(2);
+
+        Console.WriteLine($"Nombre de bouteilles produites : {producedBottles}");
